@@ -1,0 +1,84 @@
+MPLINK 5.09, LINKER
+Linker Map File - Created Tue Sep 14 13:57:30 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x0002e0
+                   .cinit    romdata   0x000170    program   0x000004
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000171      
+            370 out of 8454 program addresses used, program memory utilization is 4%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                       A1   0x0000e5    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       A2   0x00010e    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       A3   0x000137    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       A4   0x000160    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                  COMMAND   0x0000a9    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+              DELAY_1.5ms   0x0000b8    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+              DELAY_100ms   0x0000c2    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+             DISPLAY_MAIN   0x00000a    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+FULL_STEP_MOTOR_CONTROL_CCW_1   0x0000f5    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+FULL_STEP_MOTOR_CONTROL_CCW_2   0x000147    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+FULL_STEP_MOTOR_CONTROL_CW_2   0x0000cc    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+FULL_STEP_MOTOR_CONTROL_CW_3   0x00011e    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       K1   0x000041    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       K2   0x000072    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       K3   0x0000a3    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       L1   0x0000bd    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       L2   0x0000ba    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       L3   0x0000c4    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       L4   0x0000c7    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       N1   0x000044    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       N2   0x000075    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       N3   0x0000a6    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                    START   0x000000    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                    STOP1   0x000016    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                    STOP2   0x000047    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                    STOP3   0x000078    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                    WRITE   0x0000b1    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    START   0x000000    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+             DISPLAY_MAIN   0x00000a    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                    STOP1   0x000016    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       K1   0x000041    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       N1   0x000044    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                    STOP2   0x000047    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       K2   0x000072    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       N2   0x000075    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                    STOP3   0x000078    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       K3   0x0000a3    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       N3   0x0000a6    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                  COMMAND   0x0000a9    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                    WRITE   0x0000b1    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+              DELAY_1.5ms   0x0000b8    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       L2   0x0000ba    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       L1   0x0000bd    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+              DELAY_100ms   0x0000c2    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       L3   0x0000c4    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       L4   0x0000c7    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+FULL_STEP_MOTOR_CONTROL_CW_2   0x0000cc    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       A1   0x0000e5    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+FULL_STEP_MOTOR_CONTROL_CCW_1   0x0000f5    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       A2   0x00010e    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+FULL_STEP_MOTOR_CONTROL_CW_3   0x00011e    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       A3   0x000137    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+FULL_STEP_MOTOR_CONTROL_CCW_2   0x000147    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+                       A4   0x000160    program     static C:\Users\risha\MPLABXProjects\G17_Elevator_project.X\Elevator_control.asm
+
+

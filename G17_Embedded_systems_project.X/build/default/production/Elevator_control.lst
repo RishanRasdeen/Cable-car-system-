@@ -1,0 +1,940 @@
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001  list   p=16F877A
+                      00002 #include        "p16f877a.inc"
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Oct 24 2019
+                      00005 ;  MPASM PIC16F877A processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2019 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00567         LIST
+                      00003         
+                      00004 
+                      00005 
+  00000022            00006 LCD     equ     0X22    
+                      00007                 
+                      00008                 
+                      00009         org     0x00
+                      00010 
+                      00011         
+                      00012         
+0000                  00013 START
+                      00014         
+                      00015         
+                      00016         
+0000   1683           00017         bsf     STATUS,5
+                      00018         
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0001   0187           00019         clrf    TRISC                   
+0002   30FF           00020         movlw   b'11111111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0003   0086           00021         movwf   TRISB
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0004   0188           00022         clrf    TRISD
+                      00023         
+                      00024         
+0005   3007           00025         movlw   b'00000111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0006   0081           00026         movwf   OPTION_REG
+                      00027         
+0007   1283           00028         bcf     STATUS,5
+                      00029         
+0008   0187           00030         clrf    PORTC
+0009   2???           00031         call    DELAY_100ms
+                      00032         
+000A                  00033 DISPLAY_MAIN
+                      00034         
+000A   3038           00035         movlw   0X38
+000B   00A2           00036         movwf   LCD
+000C   2???           00037         call    DELAY_1.5ms
+000D   2???           00038         call    COMMAND
+000E   3001           00039         movlw   0X01
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000F   00A2           00040         movwf   LCD
+0010   2???           00041         call    DELAY_1.5ms
+0011   2???           00042         call    COMMAND
+0012   300C           00043         movlw   0X0C
+0013   00A2           00044         movwf   LCD
+0014   2???           00045         call    DELAY_1.5ms
+0015   2???           00046         call    COMMAND
+                      00047                 
+0016                  00048 STOP1
+0016   3001           00049         movlw   0X01
+0017   00A2           00050         movwf   LCD
+0018   2???           00051         call    DELAY_1.5ms
+0019   2???           00052         call    COMMAND
+001A   3020           00053         movlw   b'00100000'
+001B   00A2           00054         movwf   LCD
+001C   2???           00055         call    WRITE
+001D   3020           00056         movlw   b'00100000'
+001E   00A2           00057         movwf   LCD
+001F   2???           00058         call    WRITE
+0020   3020           00059         movlw   b'00100000'
+0021   00A2           00060         movwf   LCD
+0022   2???           00061         call    WRITE
+0023   3020           00062         movlw   b'00100000'
+0024   00A2           00063         movwf   LCD
+0025   2???           00064         call    WRITE
+0026   3053           00065         movlw   'S'
+0027   00A2           00066         movwf   LCD
+0028   2???           00067         call    WRITE
+0029   3054           00068         movlw   'T'
+002A   00A2           00069         movwf   LCD
+002B   2???           00070         call    WRITE
+002C   3041           00071         movlw   'A'
+002D   00A2           00072         movwf   LCD
+002E   2???           00073         call    WRITE
+002F   3054           00074         movlw   'T'
+0030   00A2           00075         movwf   LCD
+0031   2???           00076         call    WRITE
+0032   3049           00077         movlw   'I'
+0033   00A2           00078         movwf   LCD
+0034   2???           00079         call    WRITE
+0035   304F           00080         movlw   'O'
+0036   00A2           00081         movwf   LCD
+0037   2???           00082         call    WRITE
+0038   304E           00083         movlw   'N'
+0039   00A2           00084         movwf   LCD
+003A   2???           00085         call    WRITE
+003B   3020           00086         movlw   b'00100000'
+003C   00A2           00087         movwf   LCD
+003D   2???           00088         call    WRITE
+003E   3031           00089         movlw   b'00110001'
+003F   00A2           00090         movwf   LCD
+0040   2???           00091         call    WRITE
+                      00092 
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0041                  00093 K1      
+0041   1886           00094         btfsc   PORTB,1
+0042   2???           00095         goto    N1
+0043   2???           00096         call    FULL_STEP_MOTOR_CONTROL_CW_2
+0044                  00097 N1
+0044   1906           00098         btfsc   PORTB,2
+0045   2???           00099         goto    K1
+0046   2???           00100         call    FULL_STEP_MOTOR_CONTROL_CW_3
+                      00101         
+                      00102         
+0047                  00103 STOP2
+0047   3001           00104         movlw   0X01
+0048   00A2           00105         movwf   LCD
+0049   2???           00106         call    DELAY_1.5ms
+004A   2???           00107         call    COMMAND
+004B   3020           00108         movlw   b'00100000'
+004C   00A2           00109         movwf   LCD
+004D   2???           00110         call    WRITE
+004E   3020           00111         movlw   b'00100000'
+004F   00A2           00112         movwf   LCD
+0050   2???           00113         call    WRITE
+0051   3020           00114         movlw   b'00100000'
+0052   00A2           00115         movwf   LCD
+0053   2???           00116         call    WRITE
+0054   3020           00117         movlw   b'00100000'
+0055   00A2           00118         movwf   LCD
+0056   2???           00119         call    WRITE
+0057   3053           00120         movlw   'S'
+0058   00A2           00121         movwf   LCD
+0059   2???           00122         call    WRITE
+005A   3054           00123         movlw   'T'
+005B   00A2           00124         movwf   LCD
+005C   2???           00125         call    WRITE
+005D   3041           00126         movlw   'A'
+005E   00A2           00127         movwf   LCD
+005F   2???           00128         call    WRITE
+0060   3054           00129         movlw   'T'
+0061   00A2           00130         movwf   LCD
+0062   2???           00131         call    WRITE
+0063   3049           00132         movlw   'I'
+0064   00A2           00133         movwf   LCD
+0065   2???           00134         call    WRITE
+0066   304F           00135         movlw   'O'
+0067   00A2           00136         movwf   LCD
+0068   2???           00137         call    WRITE
+0069   304E           00138         movlw   'N'
+006A   00A2           00139         movwf   LCD
+006B   2???           00140         call    WRITE
+006C   3020           00141         movlw   b'00100000'
+006D   00A2           00142         movwf   LCD
+006E   2???           00143         call    WRITE
+006F   3032           00144         movlw   b'00110010'
+0070   00A2           00145         movwf   LCD
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0071   2???           00146         call    WRITE
+                      00147 
+0072                  00148 K2      
+0072   1806           00149         btfsc   PORTB,0
+0073   2???           00150         goto    N2
+0074   2???           00151         call    FULL_STEP_MOTOR_CONTROL_CCW_1
+0075                  00152 N2
+0075   1906           00153         btfsc   PORTB,2
+0076   2???           00154         goto    K2
+0077   2???           00155         call    FULL_STEP_MOTOR_CONTROL_CW_3
+                      00156         
+                      00157         
+                      00158 
+0078                  00159 STOP3
+0078   3001           00160         movlw   0X01
+0079   00A2           00161         movwf   LCD
+007A   2???           00162         call    DELAY_1.5ms
+007B   2???           00163         call    COMMAND
+007C   3020           00164         movlw   b'00100000'
+007D   00A2           00165         movwf   LCD
+007E   2???           00166         call    WRITE
+007F   3020           00167         movlw   b'00100000'
+0080   00A2           00168         movwf   LCD
+0081   2???           00169         call    WRITE
+0082   3020           00170         movlw   b'00100000'
+0083   00A2           00171         movwf   LCD
+0084   2???           00172         call    WRITE
+0085   3020           00173         movlw   b'00100000'
+0086   00A2           00174         movwf   LCD
+0087   2???           00175         call    WRITE
+0088   3053           00176         movlw   'S'
+0089   00A2           00177         movwf   LCD
+008A   2???           00178         call    WRITE
+008B   3054           00179         movlw   'T'
+008C   00A2           00180         movwf   LCD
+008D   2???           00181         call    WRITE
+008E   3041           00182         movlw   'A'
+008F   00A2           00183         movwf   LCD
+0090   2???           00184         call    WRITE
+0091   3054           00185         movlw   'T'
+0092   00A2           00186         movwf   LCD
+0093   2???           00187         call    WRITE
+0094   3049           00188         movlw   'I'
+0095   00A2           00189         movwf   LCD
+0096   2???           00190         call    WRITE
+0097   304F           00191         movlw   'O'
+0098   00A2           00192         movwf   LCD
+0099   2???           00193         call    WRITE
+009A   304E           00194         movlw   'N'
+009B   00A2           00195         movwf   LCD
+009C   2???           00196         call    WRITE
+009D   3020           00197         movlw   b'00100000'
+009E   00A2           00198         movwf   LCD
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+009F   2???           00199         call    WRITE
+00A0   3033           00200         movlw   b'00110011'
+00A1   00A2           00201         movwf   LCD
+00A2   2???           00202         call    WRITE
+                      00203 
+00A3                  00204 K3      
+00A3   1806           00205         btfsc   PORTB,0
+00A4   2???           00206         goto    N3
+00A5   2???           00207         call    FULL_STEP_MOTOR_CONTROL_CCW_1
+00A6                  00208 N3
+00A6   1886           00209         btfsc   PORTB,1
+00A7   2???           00210         goto    K3
+00A8   2???           00211         call    FULL_STEP_MOTOR_CONTROL_CCW_2
+                      00212         
+                      00213         
+                      00214         
+00A9                  00215 COMMAND
+00A9   1388           00216         bcf     PORTD,7
+00AA   0822           00217         movf    LCD,0
+00AB   0087           00218         movwf   PORTC
+00AC   2???           00219         call    DELAY_1.5ms
+00AD   1708           00220         bsf     PORTD,6
+00AE   2???           00221         call    DELAY_1.5ms
+00AF   1308           00222         bcf     PORTD,6
+00B0   0008           00223         return
+00B1                  00224 WRITE
+00B1   1788           00225         bsf     PORTD,7
+00B2   0822           00226         movf    LCD,0
+00B3   0087           00227         movwf   PORTC
+00B4   2???           00228         call    DELAY_1.5ms
+00B5   1708           00229         bsf     PORTD,6
+00B6   1308           00230         bcf     PORTD,6
+00B7   0008           00231         return
+                      00232 
+                      00233 ;       
+00B8                  00234 DELAY_1.5ms
+                      00235    
+00B8   3001           00236         movlw   d'1'
+00B9   00A1           00237         movwf   0x21
+00BA   3096           00238 L2      movlw   d'150'
+00BB   0081           00239         movwf   TMR0
+00BC   110B           00240         bcf     INTCON,2
+00BD   1D0B           00241 L1      btfss   INTCON,2
+00BE   2???           00242         goto    L1
+00BF   0BA1           00243         decfsz  0x21,1
+00C0   2???           00244         goto    L2
+00C1   0008           00245         return 
+                      00246 ;   
+                      00247    
+00C2                  00248 DELAY_100ms
+                      00249    
+00C2   3008           00250         movlw   d'8'
+00C3   00A0           00251         movwf   0x20
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00C4   300B           00252 L3      movlw   d'11'
+00C5   0081           00253         movwf   TMR0
+00C6   110B           00254         bcf     INTCON,2
+00C7   1D0B           00255 L4      btfss   INTCON,2
+00C8   2???           00256         goto    L4
+00C9   0BA0           00257         decfsz  0x20,1
+00CA   2???           00258         goto    L3
+00CB   0008           00259         return 
+                      00260    
+00CC                  00261 FULL_STEP_MOTOR_CONTROL_CW_2
+                      00262  
+00CC   3001           00263         movlw   0X01
+00CD   00A2           00264         movwf   LCD
+00CE   2???           00265         call    DELAY_1.5ms
+00CF   2???           00266         call    COMMAND
+00D0   3020           00267         movlw   b'00100000'
+00D1   00A2           00268         movwf   LCD
+00D2   2???           00269         call    WRITE
+00D3   3020           00270         movlw   b'00100000'
+00D4   00A2           00271         movwf   LCD
+00D5   2???           00272         call    WRITE
+00D6   3020           00273         movlw   b'00100000'
+00D7   00A2           00274         movwf   LCD
+00D8   2???           00275         call    WRITE
+00D9   3020           00276         movlw   b'00100000'
+00DA   00A2           00277         movwf   LCD
+00DB   2???           00278         call    WRITE
+00DC   3047           00279         movlw   'G'
+00DD   00A2           00280         movwf   LCD
+00DE   2???           00281         call    WRITE
+00DF   304F           00282         movlw   'O'
+00E0   00A2           00283         movwf   LCD
+00E1   2???           00284         call    WRITE
+00E2   3032           00285         movlw   b'00110010'
+00E3   00A2           00286         movwf   LCD
+00E4   2???           00287         call    WRITE
+                      00288         
+                      00289         
+00E5                  00290 A1      
+00E5   1A86           00291         btfsc   PORTB,5
+00E6   2???           00292         goto    STOP2
+00E7   300C           00293         movlw   b'00001100'
+00E8   0088           00294         movwf   PORTD
+00E9   2???           00295         call    DELAY_100ms
+00EA   3006           00296         movlw   b'00000110'
+00EB   0088           00297         movwf   PORTD
+00EC   2???           00298         call    DELAY_100ms
+00ED   3003           00299         movlw   b'00000011'
+00EE   0088           00300         movwf   PORTD
+00EF   2???           00301         call    DELAY_100ms
+00F0   3009           00302         movlw   b'00001001'
+00F1   0088           00303         movwf   PORTD
+00F2   2???           00304         call    DELAY_100ms
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00F3   2???           00305         goto    A1
+00F4   0008           00306         return
+                      00307  
+00F5                  00308 FULL_STEP_MOTOR_CONTROL_CCW_1
+                      00309 
+00F5   3001           00310         movlw   0X01
+00F6   00A2           00311         movwf   LCD
+00F7   2???           00312         call    DELAY_1.5ms
+00F8   2???           00313         call    COMMAND
+00F9   3020           00314         movlw   b'00100000'
+00FA   00A2           00315         movwf   LCD
+00FB   2???           00316         call    WRITE
+00FC   3020           00317         movlw   b'00100000'
+00FD   00A2           00318         movwf   LCD
+00FE   2???           00319         call    WRITE
+00FF   3020           00320         movlw   b'00100000'
+0100   00A2           00321         movwf   LCD
+0101   2???           00322         call    WRITE
+0102   3020           00323         movlw   b'00100000'
+0103   00A2           00324         movwf   LCD
+0104   2???           00325         call    WRITE
+0105   3047           00326         movlw   'G'
+0106   00A2           00327         movwf   LCD
+0107   2???           00328         call    WRITE
+0108   304F           00329         movlw   'O'
+0109   00A2           00330         movwf   LCD
+010A   2???           00331         call    WRITE
+010B   3031           00332         movlw   b'00110001'
+010C   00A2           00333         movwf   LCD
+010D   2???           00334         call    WRITE
+                      00335 
+010E                  00336 A2      
+010E   1A06           00337         btfsc   PORTB,4
+010F   2???           00338         goto    STOP1
+0110   3003           00339         movlw   b'00000011'
+0111   0088           00340         movwf   PORTD
+0112   2???           00341         call    DELAY_100ms
+0113   3006           00342         movlw   b'00000110'
+0114   0088           00343         movwf   PORTD
+0115   2???           00344         call    DELAY_100ms
+0116   300C           00345         movlw   b'00001100'
+0117   0088           00346         movwf   PORTD
+0118   2???           00347         call    DELAY_100ms
+0119   3009           00348         movlw   b'00001001'
+011A   0088           00349         movwf   PORTD
+011B   2???           00350         call    DELAY_100ms
+011C   2???           00351         goto    A2
+011D   0008           00352         return
+                      00353  
+011E                  00354 FULL_STEP_MOTOR_CONTROL_CW_3
+                      00355  
+011E   3001           00356         movlw   0X01
+011F   00A2           00357         movwf   LCD
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0120   2???           00358         call    DELAY_1.5ms
+0121   2???           00359         call    COMMAND
+0122   3020           00360         movlw   b'00100000'
+0123   00A2           00361         movwf   LCD
+0124   2???           00362         call    WRITE
+0125   3020           00363         movlw   b'00100000'
+0126   00A2           00364         movwf   LCD
+0127   2???           00365         call    WRITE
+0128   3020           00366         movlw   b'00100000'
+0129   00A2           00367         movwf   LCD
+012A   2???           00368         call    WRITE
+012B   3020           00369         movlw   b'00100000'
+012C   00A2           00370         movwf   LCD
+012D   2???           00371         call    WRITE
+012E   3047           00372         movlw   'G'
+012F   00A2           00373         movwf   LCD
+0130   2???           00374         call    WRITE
+0131   304F           00375         movlw   'O'
+0132   00A2           00376         movwf   LCD
+0133   2???           00377         call    WRITE
+0134   3033           00378         movlw   b'00110011'
+0135   00A2           00379         movwf   LCD
+0136   2???           00380         call    WRITE
+0137                  00381 A3      
+0137   1B06           00382         btfsc   PORTB,6
+0138   2???           00383         goto    STOP3
+0139   300C           00384         movlw   b'00001100'
+013A   0088           00385         movwf   PORTD
+013B   2???           00386         call    DELAY_100ms
+013C   3006           00387         movlw   b'00000110'
+013D   0088           00388         movwf   PORTD
+013E   2???           00389         call    DELAY_100ms
+013F   3003           00390         movlw   b'00000011'
+0140   0088           00391         movwf   PORTD
+0141   2???           00392         call    DELAY_100ms
+0142   3009           00393         movlw   b'00001001'
+0143   0088           00394         movwf   PORTD
+0144   2???           00395         call    DELAY_100ms
+0145   2???           00396         goto    A3
+0146   0008           00397         return
+                      00398  
+0147                  00399 FULL_STEP_MOTOR_CONTROL_CCW_2
+                      00400  
+0147   3001           00401         movlw   0X01
+0148   00A2           00402         movwf   LCD
+0149   2???           00403         call    DELAY_1.5ms
+014A   2???           00404         call    COMMAND
+014B   3020           00405         movlw   b'00100000'
+014C   00A2           00406         movwf   LCD
+014D   2???           00407         call    WRITE
+014E   3020           00408         movlw   b'00100000'
+014F   00A2           00409         movwf   LCD
+0150   2???           00410         call    WRITE
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0151   3020           00411         movlw   b'00100000'
+0152   00A2           00412         movwf   LCD
+0153   2???           00413         call    WRITE
+0154   3020           00414         movlw   b'00100000'
+0155   00A2           00415         movwf   LCD
+0156   2???           00416         call    WRITE
+0157   3047           00417         movlw   'G'
+0158   00A2           00418         movwf   LCD
+0159   2???           00419         call    WRITE
+015A   304F           00420         movlw   'O'
+015B   00A2           00421         movwf   LCD
+015C   2???           00422         call    WRITE
+015D   3032           00423         movlw   b'00110010'
+015E   00A2           00424         movwf   LCD
+015F   2???           00425         call    WRITE
+0160                  00426 A4      
+0160   1A86           00427         btfsc   PORTB,5
+0161   2???           00428         goto    STOP2
+0162   3003           00429         movlw   b'00000011'
+0163   0088           00430         movwf   PORTD
+0164   2???           00431         call    DELAY_100ms
+0165   3006           00432         movlw   b'00000110'
+0166   0088           00433         movwf   PORTD
+0167   2???           00434         call    DELAY_100ms
+0168   300C           00435         movlw   b'00001100'
+0169   0088           00436         movwf   PORTD
+016A   2???           00437         call    DELAY_100ms
+016B   3009           00438         movlw   b'00001001'
+016C   0088           00439         movwf   PORTD
+016D   2???           00440         call    DELAY_100ms
+016E   2???           00441         goto    A4
+016F   0008           00442         return
+                      00443  
+                      00444    end
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+A1                                000000E5
+A2                                0000010E
+A3                                00000137
+A4                                00000160
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADCS2                             00000006
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+BCLIE                             00000003
+BCLIF                             00000003
+BF                                00000000
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2                             0000001B
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CHS0                              00000003
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CHS1                              00000004
+CHS2                              00000005
+CIS                               00000003
+CKE                               00000006
+CKP                               00000004
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000009C
+CMIE                              00000006
+CMIF                              00000006
+COMMAND                           000000A9
+CREN                              00000004
+CSRC                              00000007
+CVR0                              00000000
+CVR1                              00000001
+CVR2                              00000002
+CVR3                              00000003
+CVRCON                            0000009D
+CVREN                             00000007
+CVROE                             00000006
+CVRR                              00000005
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DELAY_1.5ms                       000000B8
+DELAY_100ms                       000000C2
+DISPLAY_MAIN                      0000000A
+D_A                               00000005
+D_NOT_A                           00000005
+EEADR                             0000010D
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+FULL_STEP_MOTOR_CONTROL_CCW_1     000000F5
+FULL_STEP_MOTOR_CONTROL_CCW_2     00000147
+FULL_STEP_MOTOR_CONTROL_CW_2      000000CC
+FULL_STEP_MOTOR_CONTROL_CW_3      0000011E
+GCEN                              00000007
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+GO_NOT_DONE                       00000002
+I2C_DATA                          00000005
+I2C_READ                          00000002
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+I2C_START                         00000003
+I2C_STOP                          00000004
+IBF                               00000007
+IBOV                              00000005
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+K1                                00000041
+K2                                00000072
+K3                                000000A3
+L1                                000000BD
+L2                                000000BA
+L3                                000000C4
+L4                                000000C7
+LCD                               00000022
+N1                                00000044
+N2                                00000075
+N3                                000000A6
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OBF                               00000006
+OERR                              00000001
+OPTION_REG                        00000081
+P                                 00000004
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PORTB                             00000006
+PORTC                             00000007
+PORTD                             00000008
+PORTE                             00000009
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSPIE                             00000007
+PSPIF                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RC0                               00000000
+RC1                               00000001
+RC2                               00000002
+RC3                               00000003
+RC4                               00000004
+RC5                               00000005
+RC6                               00000006
+RC7                               00000007
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RD0                               00000000
+RD1                               00000001
+RD2                               00000002
+RD3                               00000003
+RD4                               00000004
+RD5                               00000005
+RD6                               00000006
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RD7                               00000007
+RE0                               00000000
+RE1                               00000001
+RE2                               00000002
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+R_NOT_W                           00000002
+R_W                               00000002
+S                                 00000003
+SEN                               00000000
+SMP                               00000007
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000094
+START                             00000000
+STATUS                            00000003
+STOP1                             00000016
+STOP2                             00000047
+STOP3                             00000078
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISC                             00000087
+TRISC0                            00000000
+TRISC1                            00000001
+TRISC2                            00000002
+TRISC3                            00000003
+TRISC4                            00000004
+TRISC5                            00000005
+TRISC6                            00000006
+TRISC7                            00000007
+TRISD                             00000088
+TRISD0                            00000000
+TRISD1                            00000001
+TRISD2                            00000002
+TRISD3                            00000003
+TRISD4                            00000004
+TRISD5                            00000005
+TRISD6                            00000006
+TRISD7                            00000007
+TRISE                             00000089
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRMT                              00000001
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+W                                 00000000
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+WRITE                             000000B1
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_ALL                           00001FFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_DEVID1                           00002006
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_WRT_1FOURTH                      00003BFF
+_WRT_256                          00003DFF
+_WRT_HALF                         000039FF
+MPASM 5.86              ELEVATOR_CONTROL.ASM   9-14-2021  13:57:28         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_WRT_OFF                          00003FFF
+_XT_OSC                           00003FFD
+__16F877A                         00000001
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     4 reported,     0 suppressed
+
+
